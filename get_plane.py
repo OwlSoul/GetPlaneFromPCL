@@ -10,7 +10,7 @@ Reads from stdin, prints result to stdout.
 USAGE: cat input3.txt | ./get_plane.py
 """
 
-#pylint:disable=C0103, C0301, W0621
+# pylint:disable=C0103, C0301, W0621
 
 import sys
 import math
@@ -39,14 +39,14 @@ def plane_equation(p1, p2, p3):
         return None
     # All clear
     d = (- a * p1[0] - b * p1[1] - c * p1[2])
-    return (a, b, c, d)
+    return a, b, c, d
 
 
 def distance_to_plane(plane, pt):
     """
     Returns distance from the point to the plane
     :param plane: list of plane coefficients (A, B, C, D), can be None
-    :param p: point (x, y, z)
+    :param pt: point (x, y, z)
     :return: distance fro the point to the plane, float
     """
     if plane is None:
@@ -65,7 +65,7 @@ def points_match(plane, p, points, threshold):
     :param plane: plane equation coefficients, [A, B, C, D]
     :param p: maximum distance between point and the plane
     :param points: array of points
-    :param treshold: number of points needed to acheive to exit, usually it's total/2
+    :param threshold: number of points needed to acheive to exit, usually it's total/2
     :return: True if more than treshold points are on or near the plane, False otherwise
     """
     match = 0
@@ -79,12 +79,12 @@ def points_match(plane, p, points, threshold):
 
 def points_percentage(plane, p, points, total):
     """
-    Check if more than 50% of the points match the condition.
+    Gets the exact of the points which falls into the "condition" (50% or more)
     :param plane: plane equation coefficients, [A, B, C, D]
     :param p: maximum distance between point and the plane
     :param points: array of points
-    :param treshold: number of points needed to acheive to exit, usually it's total/2
-    :return: True if more than treshold points are on or near the plane, False otherwise
+    :param total: number of points needed to acheive to exit, usually it's total/2
+    :return: percentage, 0..1.0
     """
     match = 0
     for point in points:
@@ -128,13 +128,13 @@ for p1 in range(0, total-2):
 """
 
 # ---- Let's try friggin poor man RANSAC instead, like, it's not that hard to find those damn 50% of em points? ---- #
-iterations = total # Total number of iterations, let's just hope it'll find the plane before they end.
+iterations = total  # Total number of iterations, let's just hope it'll find the plane before they end.
 for i in range(0, iterations):
     # Getting the sample of 3 points from the total set.
     sample = random.sample(range(0, total), 3)
 
-    #pylint:disable=E1126
-    #Computing the plane equation
+    # pylint:disable=E1126
+    # Computing the plane equation
     plane_coefs = plane_equation(points[sample[0]], points[sample[1]], points[sample[2]])
     # pylint:enable=E1126
 

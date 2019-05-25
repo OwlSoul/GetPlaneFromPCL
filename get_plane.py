@@ -5,10 +5,12 @@ Yandex Self-Driving Meetup Challenge.
 TASK: Get the plane from the point cloud, the plane should follow these conditions:
  - At least 50% of the points from the cloud are closer than "p" to the plane.
 I think that's it. The full condition of the task is in the "condition.html" file.
+
 Reads from stdin, prints result to stdout.
+USAGE: cat input3.txt | ./get_plane.py
 """
 
-#pylint:disable=C0103, C0301
+#pylint:disable=C0103, C0301, W0621
 
 import sys
 import math
@@ -92,8 +94,7 @@ def points_percentage(plane, p, points, total):
     return match / total
 
 
-
-# ----                                           Read the initial data                                            ---- #
+# ----                                           Read the initial data                                           ---- #
 # Maximum distance between point and the plane
 p = float(sys.stdin.readline())
 # Number of points
@@ -107,7 +108,7 @@ for i in range(0, points_num):
 total = len(points)
 threshold = total / 2
 
-# Brute force, kinda fails for time limit
+# ----                                    Brute force, kinda fails for time limit                                ---- #
 """
 for p1 in range(0, total-2):
     for p2 in range(p1+1, total-1):
@@ -126,13 +127,22 @@ for p1 in range(0, total-2):
             #print("{0:0.2f}".format(perc*100) + "%")
 """
 
-# Let's try friggin poor man RANSAC instead, like, it's not that hard to find those damn 50% of em points?
-iterations = total # Duh
+# ---- Let's try friggin poor man RANSAC instead, like, it's not that hard to find those damn 50% of em points? ---- #
+iterations = total # Total number of iterations, let's just hope it'll find the plane before they end.
 for i in range(0, iterations):
+    # Getting the sample of 3 points from the total set.
     sample = random.sample(range(0, total), 3)
+
+    #pylint:disable=E1126
+    #Computing the plane equation
     plane_coefs = plane_equation(points[sample[0]], points[sample[1]], points[sample[2]])
+    # pylint:enable=E1126
+
+    # If plane_coefs is None, points are probably collinear or something.
     if plane_coefs is None:
         continue
+
+    # Check if the plane "matches" our condition (more than half of the points are there).
     match = points_match(plane_coefs, p, points, threshold)
     if match:
         print("{0:.6f}".format(plane_coefs[0]),

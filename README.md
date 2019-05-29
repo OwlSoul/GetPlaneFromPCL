@@ -31,7 +31,7 @@ Original task link: [Yandex Self-Driving Meetup 2019 Entry Contest](https://cont
   
 </details>
 
-Ths task is solved using a simple RANSAC, and speeded up dramatically by parallelization (CUDA, for example). The latter was impossible for this challenge.
+Ths task is solved using a simple RANSAC, and can be speeded up dramatically by parallelization (CUDA, for example). The latter was impossible for this challenge.
 
 ## Credits
 [Yury D.](https://github.com/OwlSoul) (TheOwlSoul@gmail.com)

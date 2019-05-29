@@ -1,5 +1,5 @@
 # GetPlaneFromPCL
-This is an Entry task for Yandex Self-Driving Meetup 2019. The goal is to find a road plane in the LIDAR Point cloud. It is stated that if more than 50% of PCL points are on or near anough (closer than parameter *p*) to the plane, it's our road plane. That's it. Data is taken from the stdin, and the result is printed to stdout.
+This is an Entry task for Yandex Self-Driving Meetup 2019. The goal is to find a road plane in the LIDAR Point cloud. It is stated that if more than 50% of PCL points are on or close enough (closer than parameter *p*) to the plane, it's our road plane. That's it. Data is taken from the stdin, and the result is printed to stdout.
 
 **Usage:** `cat input1.txt | ./get_plane.py`
 
